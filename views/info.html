@@ -1,0 +1,51 @@
+<h1>RRD Header Info</h1>
+<div>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td>RRD File</td>
+				<td colspan=5><%=info.rrdFile%></td>
+			</tr>
+			<tr>
+				<td>Min Step</td>
+				<td colspan=5><%=info.minStep%></td>
+			</tr>
+			<tr>
+				<td>Last update</td>
+				<td colspan=5><%=new Date(parseInt(info.lastUpdate) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ')%></td>
+			</tr>
+			<tr>
+				<td rowspan=<%=info.dsList.length%>>DS list</td>
+				<td><%=info.dsList[0].name%></td>
+				<td colspan=4><%=info.dsList[0].type%></td>
+			</tr>
+			<% for (var i=1; i<info.dsList.length; i++) { %>
+			<tr>
+				<td><%=info.dsList[i].name%></td>
+				<td colspan=4><%=info.dsList[i].type%></td>
+			</tr>
+			<% } %>
+			<tr>
+				<td rowspan=<%=info.rraList.length%>>RRA list</td>
+				<td>0</td>
+				<td>Rows</td>
+				<td><%=info.rraList[0].rows%></td>
+				<td>Step</td>
+				<td><%=info.rraList[0].step%></td>
+			</tr>
+			<% for (var i=1; i<info.rraList.length; i++) { %>
+			<tr>
+				<td><%=i%></td>
+				<td>Rows</td>
+				<td><%=info.rraList[i].rows%></td>
+				<td>Step</td>
+				<td><%=info.rraList[i].step%></td>
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+</div>
+<style> 
+.table thead th {vertical-align:middle;} 
+.table tbody td {vertical-align:middle;} 
+</style> 

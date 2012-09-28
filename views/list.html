@@ -1,0 +1,15 @@
+<h1>RRD File List</h1>
+<div>
+	<table class="table table-bordered">
+		<tbody>
+			<% for (var i in files) { %>
+				<tr>
+					<td><%=files[i].slice(0,-4)%></td>
+					<td><a href='/info/<%=files[i]%>'>Header Info</a></td>
+					<td><a href='/raw/<%=files[i]%>'>Raw Data</a></td>
+					<td><a href='/graph/<%=files[i]%>'>Graph</a></td>
+				</tr>
+			<% } %>
+		</tbody>
+	</table>
+</div>

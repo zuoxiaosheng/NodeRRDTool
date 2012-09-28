@@ -1,0 +1,62 @@
+<h1>RRD Raw Content</h1>
+<div>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td><b><%=info.rrdFile.slice(0,-4)%></b></td>
+    	  <td>DS: <select id="select_ds">
+          <% for (var i in info.dsNames) { %>
+            <option><%=info.dsNames[i]%></option>
+          <% } %>
+        </select></td>
+    	  <td>RRA: <select id="select_rra">
+          <% for (var i=0; i<info.rraCount; i++) { %>
+            <option><%=i%></option>
+          <% } %>
+        </select></td>
+        <td>Columns: <select id="select_columns">
+          <option value="1"/>1</option>
+          <option value="2"/>2</option>
+          <option value="4"/>4</option>
+          <option value="5"/>5</option>
+          <option value="10"/>10</option>
+          <option value="20" selected/>20</option>
+        </select></td>
+    	  <td><button id="dsrra_button" onclick="element_update()">Update</button></td>
+    	</tr>
+    </tbody>
+  </table>
+  <table id="infotable" border=1>
+    <tr><th colspan="21">Data</th></tr>
+  </table>
+</div>
+<script type="text/javascript">
+  function element_update() {
+    ds = $('#select_ds').val();
+    rra = $('#select_rra').val();
+    col = $('#select_columns').val();
+
+    // cleanup
+    // rows may have been added during previous updates
+    var oTable=document.getElementById("infotable");
+    var oRow=undefined;
+    $.get('/data/<%=info.rrdFile%>/'+ds+'/'+rra, function(result) {
+      for (var i in result) {
+        if ((i%col)==0) {
+          // One new row every col
+          oRow=oTable.insertRow(-1);
+          var oCell=oRow.insertCell(-1);
+          oCell.innerHTML=i;
+        }
+        var oCell=oRow.insertCell(-1);
+        oCell.colSpan=20/col;
+        var el=result[i][1];
+        if (el!=undefined) {
+         oCell.innerHTML=Math.round(el);
+        } else {
+         oCell.innerHTML="-";
+        }
+      }
+    })
+  } 
+</script>
